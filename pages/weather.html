@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="../styles/styes.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+
+<body>
+    <div class="main-container flex center-center">
+        <div class="width-50 flex center-center">
+            <div class="left-part flex center-center column-dir">
+                <h2>Word of the Day</h2>
+                <div class="quotes">
+                    <blockquote class="center-text" id="quote"></blockquote>
+                    <p class="center-text" id="name"></p>
+                </div>
+            </div>
+        </div>
+        <div class="width-50 flex center-center">
+            <div class="right-part">
+                <div class="top-part flex vert-align space-between flex-start">
+                    <div class="top-left">
+                        <p>arrow</p>
+                    </div>
+                    <div class="weather">
+                        <p>Weather Forecast</p>
+                    </div>
+                    <div class="top-right flex vert-align">
+                        <input class="search-input" type="text" placeholder="City, code">
+                        <span class="search-icon" class="material-symbols-outlined">search</span>
+                    </div>
+                </div>
+                <div class="cities">
+                    <div class="days-nav flex space-between margin-top-0">
+                        <p id="saved-city" class="center-text">Saved City</p>
+                        <p id="popular-city" class="center-text">Popular City</p>
+                    </div>
+                </div>
+                <div class="city-section flex hor-align" id="middle-part">
+                    <div class="cards flex space-between flex-wrap">
+                        <div class="city-card mar">
+
+                        </div>
+                        <div class="city-card">
+    
+                        </div>
+                        <div class="city-card margin-top-10">
+
+                        </div>
+                        <div class="city-card margin-top-10">
+    
+                        </div>
+                        <div class="city-card margin-top-10">
+
+                        </div>
+                        <div class="city-card margin-top-10">
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./scripts/script.js"></script>
+</body>
+
+</html>
