@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="../styles/styes.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <body>
@@ -20,21 +22,52 @@
             </div>
         </div>
         <div class="width-50 flex center-center">
-            <div class="right-part">
+            <div class="right-part next-days">
                 <div class="days-top flex vert-align gap-12">
                     <div class="arrow">
                         <p>arrow</p>
                     </div>
-                    <div class="next-days">
-                        <p>3 Next Days</p>
+                    <div class="next-day">
+                        <p>5 Next Days</p>
                     </div>
                 </div>
-                <div class="days">
-                    <div class="days-container flex space-between margin-top-0">
-                        
+                <div class="day-container flex space-around">
+                    <div class="day">
+                        <p id="time" class="center-text">12:00</p>
+                        <p id="time-icon" class="center-text">icon</p>
+                        <p id="time-deg" class="center-text">25&deg</p>
+                    </div>
+                    <div class="day">
+                        <p class="center-text">12:00</p>
+                        <p class="center-text">icon</p>
+                        <p class="center-text">25&deg</p>
+                    </div>
+                    <div class="day">
+                        <p class="center-text">12:00</p>
+                        <p class="center-text">icon</p>
+                        <p class="center-text">25&deg</p>
+                    </div>
+                    <div class="day">
+                        <p class="center-text">12:00</p>
+                        <p class="center-text">icon</p>
+                        <p class="center-text">25&deg</p>
+                    </div>
+                    <div class="day">
+                        <p class="center-text">12:00</p>
+                        <p class="center-text">icon</p>
+                        <p class="center-text">25&deg</p>
                     </div>
                 </div>
-                <div class="city-section flex hor-align" id="middle-part">
+                <div class="day-weather">
+                    <div class="days-temp flex space-around vert-align">
+                        <div class="icon">
+                            <p>ICON</p>
+                        </div>
+                        <div class="temp-container flex vert-align">
+                            <p class="temp margin-0">28&deg</p>
+                            <p class="align-item-to-end margin-top-10">C</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

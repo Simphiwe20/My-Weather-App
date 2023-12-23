@@ -59,7 +59,7 @@ body {
 }
 
 .gap-12 {
-    gap: 12rem;
+    gap: 8rem;
 }
 
 .flex-wrap {
@@ -100,6 +100,14 @@ h2 {
 
 .flex-start {
     align-items: flex-start;
+}
+
+.align-item-to-end {
+    align-self: flex-end;
+}
+
+.space-around {
+    justify-content: space-around;
 }
 
 .quotes {
@@ -238,6 +246,10 @@ h2 {
     gap: 4rem;
 }
 
+.arrow span:hover {
+    cursor: pointer;
+}
+
 .weather p {
     font-weight: 700;
     font-size: larger;
@@ -259,7 +271,12 @@ h2 {
 }
 
 .margin-top-0 {
-    margin-top: 0;
+    margin: 0 !important;
+}
+
+.days-middle {
+    padding: 0px !important;
+    height: 100% !important;
 }
 
 .next-days p, .arrow p {
@@ -283,6 +300,9 @@ h2 {
     color: var(--white);
 }
 
+.margin-top-10 {
+    margin: 0 0 10px 0
+}
 
 
 .cards {
@@ -291,9 +311,49 @@ h2 {
     margin: 10px 0 10px 0;
 }
 
+.next-days {
+    background-image: linear-gradient(to bottom, var(--blue), var(--light-blue));
+    border-radius: 20px;
+    border-radius: 20px;
+    height: 100%;
+} 
+
 .days-top {
-    background-image: linear-gradient(to top, var(--blue), var(--light-blue));
-    border-bottom-style:groove;
+    /* border-bottom-style:groove; */
+    margin: 0px 0px 30px 20px;
+}
+
+.day {
+    width: 60px;
+    background-image: linear-gradient(to bottom, var(--light-blue), var(--dark-blue));
+    border-radius: 30px;
+    color: var(--white);
+    /* font-weight: 600; */
+}
+
+.day-weather {
+    background-image: linear-gradient(to bottom, #fefefe, #e8e6f7);
+    width: 100%;
+    height: 54%;
+    margin-top: 21px;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+}
+
+.days-temp p {
+    color: black;
+
+}
+
+.days-temp {
+    margin: 30px 0 30px 0;
+}
+
+.days-temp .temp {
+    font-size: 60px;
 }
 
 
