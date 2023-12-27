@@ -50,7 +50,7 @@ body {
 
 .icon
 
-.gap-3 {
+.gap-2 {
     gap: 2rem;
 }
 
@@ -171,6 +171,10 @@ h2 {
     cursor: pointer;
 }
 
+.middle-part {
+    margin-bottom: 30px;
+}
+
 .middle {
     margin: 20px 0 30px 0;
     padding-bottom: 30px;
@@ -183,7 +187,8 @@ h2 {
 }
 
 .icon {
-    font-size: xx-large;
+    width: 100px;
+    height: 100px;
     margin-bottom: 0;
 }
 
@@ -200,7 +205,11 @@ h2 {
 }
 
 .temp{
-    font-size: xx-large;
+    font-size: 70px;
+}
+
+.temp-container p{
+    align-self: flex-end;
 }
 
 .temps-container {
@@ -209,18 +218,22 @@ h2 {
 
 .extra-temp {
     width: 25%;
-    height: 120px;
+    height: 100px;
     background-color: var(--light-blue);
     border-radius: 20px;
     padding-bottom: 10px;
 
 }
 
+.time-forecast p {
+    margin: 5px;
+}
 
 .time-forecast {
     padding: 0 20px 0 20px;
     box-sizing: border-box;
-    height: calc(50% - 60px - 42px - 60px);
+    height: 80px;
+    margin-top: 10px;
     /* width: 80%; */
     /* background-color: #e8e6f7; */
     border: none;
@@ -243,7 +256,7 @@ h2 {
 }
 
 .gap-4 {
-    gap: 4rem;
+    gap: 2rem;
 }
 
 .arrow span:hover {
@@ -354,6 +367,26 @@ h2 {
 
 .days-temp .temp {
     font-size: 60px;
+}
+
+.temps-container img {
+    width: 30px;
+    height: 30px;
+    color: var(--white);
+}
+
+.temps-container p {
+    margin: 5px;
+}
+
+.time-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.time-container {
+    overflow-y: auto;
+    height:130px;
 }
 
 
