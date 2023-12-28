@@ -14,15 +14,12 @@ const rightPart = document.querySelector("#right-part")
 const timeForecast = document.querySelector(".time-forecast")
 const quoteAPI = "https://zenquotes.io/api/quotes"
 
-// let lon;
-// let lat;
-
 let position = localStorage.position ? JSON.parse(localStorage.position) : {}
 
 let pos = navigator.geolocation.getCurrentPosition(pos => {
     position["lat"] = pos.coords.latitude
     position["lon"] = pos.coords.longitude
-    localStorage.setItem("position", JSON.stringify(position))    
+    localStorage.setItem("position", JSON.stringify(position))
 })
 
 
@@ -42,7 +39,7 @@ let weatherPromise = await fetch(weatherAPI)
 let weatherData = await weatherPromise.json()
 console.log(weatherData)
 
-var todayClone = todayTemplate.content.cloneNode(true)
+let todayClone = todayTemplate.content.cloneNode(true)
 
 // Accessing the weather data list using it's date to view it
 let weatherList = weatherData.list
@@ -71,6 +68,7 @@ weatherList.forEach((list, indx) => {
 
         }
         wrapper.appendChild(todayClone)
+        console.log(wrapper)
         timeForecast.innerHTML += `<div class="times-container flex gap-4">
                                         <div class="time flex center-center column-dir">
                                             <p id="times_${indx}" class="center-text">${dateTime}</p>
@@ -80,6 +78,8 @@ weatherList.forEach((list, indx) => {
                                     </div>`
 
     }
+    document.getElementById('middle-part').innerHTML = ""
+    document.getElementById('middle-part').appendChild(wrapper)
 
 })
 
@@ -122,83 +122,94 @@ searchIcon.addEventListener("click", eve => {
     searchInput.style.display == "none" ? searchInput.style.display = "block" : searchInput.style.display = "none"
 })
 
+
+
 // today navigation 
 todayNav.addEventListener("click", eve => {
     getToday()
 })
 
+
+
 const getToday = () => {
-    // let weatherList = weatherData.list
-    // weatherList.forEach((list, indx) => {
-    // let weatherDate = list.dt_txt.split(" ")
-    // let dateNum = weatherDate[0].split("-")[2]
-    // console.log(dateNum)
+    let todayClone = todayTemplate.content.cloneNode(true)
 
-    // if (dateNum == currentdate) {
-    //     let timeHour = weatherDate[1].split(":")[0]
-    //     let timeMinute = weatherDate[1].split(":")[1]
-    //     let dateTime = `${timeHour}:${timeMinute}`
-    //     console.log(dateNum)
+    let weatherList = weatherData.list
+    weatherList.forEach((list, indx) => {
+    let weatherDate = list.dt_txt.split(" ")
+    let dateNum = weatherDate[0].split("-")[2]
+    console.log(dateNum)
 
-    //     if (indx == 0) {
+    if (dateNum == currentdate) {
+        let timeHour = weatherDate[1].split(":")[0]
+        let timeMinute = weatherDate[1].split(":")[1]
+        let dateTime = `${timeHour}:${timeMinute}`
+        console.log(dateNum)
 
-    //         document.getElementById("city").innerHTML = weatherData.city.name + ", " + weatherData.city.country
+        if (indx == 0) {
 
-    //         todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + weatherList[indx].weather[0].icon + ".png"
-    //         todayClone.getElementById("todayDescription").innerHTML = weatherList[indx].weather[0].description
-    //         todayClone.getElementById("todayFeel").innerHTML += Math.floor(weatherList[indx].main.feels_like) + "\u00B0"
-    //         todayClone.getElementById("todayTemp").innerHTML = Math.floor(weatherList[indx].main.temp) + "\u00B0"
-    //         todayClone.getElementById("todayRateHum").innerHTML = weatherList[indx].main.humidity + "%"
-    //         todayClone.getElementById("todayRateVis").innerHTML = (weatherList[indx].visibility / 1000) + "km"
-    //         todayClone.getElementById("todayRateWind").innerHTML = Math.floor(weatherList[indx].wind.speed) + "m/s"
+            document.getElementById("city").innerHTML = weatherData.city.name + ", " + weatherData.city.country
 
-    //     }
-    //     wrapper.appendChild(todayClone)
-    //     timeForecast.innerHTML += `<div class="times-container flex gap-4">
-    //                                     <div class="time flex center-center column-dir">
-    //                                         <p id="times_${indx}" class="center-text">${dateTime}</p>
-    //                                         <img class="time-icon" id="time-icon_${indx}" class="center-text" src="http://openweathermap.org/img/w/${weatherList[indx].weather[0].icon}.png" alt ="">
-    //                                         <p class="time-deg_${indx}" class="center-text">${Math.floor(weatherList[indx].main.temp)} \u00B0</p>
-    //                                     </div>
-    //                                 </div>`
+            todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + weatherList[indx].weather[0].icon + ".png"
+            todayClone.getElementById("todayDescription").innerHTML = weatherList[indx].weather[0].description
+            todayClone.getElementById("todayFeel").innerHTML += Math.floor(weatherList[indx].main.feels_like) + "\u00B0"
+            todayClone.getElementById("todayTemp").innerHTML = Math.floor(weatherList[indx].main.temp) + "\u00B0"
+            todayClone.getElementById("todayRateHum").innerHTML = weatherList[indx].main.humidity + "%"
+            todayClone.getElementById("todayRateVis").innerHTML = (weatherList[indx].visibility / 1000) + "km"
+            todayClone.getElementById("todayRateWind").innerHTML = Math.floor(weatherList[indx].wind.speed) + "m/s"
 
-    // }
+        }
+        wrapper.appendChild(todayClone)
+        timeForecast.innerHTML += `<div class="times-container flex gap-4">
+                                        <div class="time flex center-center column-dir">
+                                            <p id="times_${indx}" class="center-text">${dateTime}</p>
+                                            <img class="time-icon" id="time-icon_${indx}" class="center-text" src="http://openweathermap.org/img/w/${weatherList[indx].weather[0].icon}.png" alt ="">
+                                            <p class="time-deg_${indx}" class="center-text">${Math.floor(weatherList[indx].main.temp)} \u00B0</p>
+                                        </div>
+                                    </div>`
 
-    // })
+    }
+
+    })
     document.getElementById('middle-part').innerHTML = ""
     document.getElementById('middle-part').appendChild(wrapper)
 }
 
-let weather = localStorage.weather ? JSON.parse(localStorage.weather) : []
+// getToday()
 
-// Tommorow's Day navigation
-tmrNav.addEventListener("click", eve => {
+let weather = localStorage.weather ? JSON.parse(localStorage.weather) : {}
+
+const getTmrWeather = () => {
+    let todayClone = todayTemplate.content.cloneNode(true)
     let weatherList = weatherData.list
     weatherList.forEach((list, indx) => {
         let weatherDate = list.dt_txt.split(" ")
         let dateNum = weatherDate[0].split("-")[2]
-        console.log(dateNum)
 
         if (dateNum == currentdate + 1) {
             let timeHour = weatherDate[1].split(":")[0]
             let timeMinute = weatherDate[1].split(":")[1]
             let dateTime = `${timeHour}:${timeMinute}`
-            console.log(list)
-            weather.push(list)
-            localStorage.setItem("weather", JSON.stringify(weather))
+            console.log("Tommorow's date")
+
             if (indx == 0) {
+                console.log(list)
+                weather["data"] = list
+                localStorage.setItem("weather", JSON.stringify(weather))
 
                 document.getElementById("city").innerHTML = weatherData.city.name + ", " + weatherData.city.country
 
-                todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + weather[0].weather[0].icon + ".png"
-                todayClone.getElementById("todayDescription").innerHTML = weather[indx].weather[0].description
-                todayClone.getElementById("todayFeel").innerHTML += Math.floor(weather[indx].main.feels_like) + "\u00B0"
-                todayClone.getElementById("todayTemp").innerHTML = Math.floor(weather[indx].main.temp) + "\u00B0"
-                todayClone.getElementById("todayRateHum").innerHTML = weather[indx].main.humidity + "%"
-                todayClone.getElementById("todayRateVis").innerHTML = (weather[indx].visibility / 1000) + "km"
-                todayClone.getElementById("todayRateWind").innerHTML = Math.floor(weather[indx].wind.speed) + "m/s"
+                todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + weather.data.weather[0].icon + ".png"
+                todayClone.getElementById("todayDescription").innerHTML = weather.data.weather[0].description
+                todayClone.getElementById("todayFeel").innerHTML += Math.floor(weather.data.main.feels_like) + "\u00B0"
+                todayClone.getElementById("todayTemp").innerHTML = Math.floor(weather.data.main.temp) + "\u00B0"
+                todayClone.getElementById("todayRateHum").innerHTML = weather.data.main.humidity + "%"
+                todayClone.getElementById("todayRateVis").innerHTML = (weather.data.visibility / 1000) + "km"
+                todayClone.getElementById("todayRateWind").innerHTML = Math.floor(weather.data.wind.speed) + "m/s"
 
             }
+
+            // wrapper.innerHTML = ""
             wrapper.appendChild(todayClone)
             timeForecast.innerHTML += `<div class="times-container flex gap-4">
                                         <div class="time flex center-center column-dir">
@@ -207,11 +218,19 @@ tmrNav.addEventListener("click", eve => {
                                             <p class="time-deg_${indx}" class="center-text">${Math.floor(weatherList[indx].main.temp)} \u00B0</p>
                                         </div>
                                     </div>`
+
         }
 
     })
+
     document.getElementById('middle-part').innerHTML = ""
     document.getElementById('middle-part').appendChild(wrapper)
+}
+
+// Tommorow's Day navigation
+tmrNav.addEventListener("click", eve => {
+    getTmrWeather()
+    
 })
 
 // Next days navigation 
@@ -272,7 +291,7 @@ daysNav.addEventListener("click", eve => {
 })
 
 
-getToday()
+
 
 
 const setDay = () => {
