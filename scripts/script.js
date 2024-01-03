@@ -19,7 +19,9 @@ const errorMsg = document.getElementById("errorMsg")
 
 let position = localStorage.position ? JSON.parse(localStorage.position) : {}
 
-let pos = navigator.geolocation.getCurrentPosition(pos => {
+console.log(position)
+navigator.geolocation.watchPosition(pos => {
+    
     position["lat"] = pos.coords.latitude
     position["lon"] = pos.coords.longitude
     localStorage.setItem("position", JSON.stringify(position))
@@ -113,7 +115,7 @@ const getToday = () => {
             if (indx == 0) {
 
                 document.getElementById("city").innerHTML = weatherData.city.name + ", " + weatherData.city.country
-
+                console.log(weatherData.city.name)
                 todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + weatherList[indx].weather[0].icon + ".png"
                 todayClone.getElementById("todayDescription").innerHTML = weatherList[indx].weather[0].description
                 todayClone.getElementById("todayFeel").innerHTML += Math.floor(weatherList[indx].main.feels_like) + "\u00B0"
@@ -146,21 +148,30 @@ const getToday = () => {
 
 getToday()
 
-let weather = localStorage.weather ? JSON.parse(localStorage.weather) : []
-
-
 // Showing the search input 
-searchIcon.addEventListener("click", eve => {
-    searchInput.style.display == "none" ? searchInput.style.display = "block" : searchInput.style.display = "none"
+// searchIcon.addEventListener("click", _eve => {
+//     // searchInput.style.display == "none" ? searchInput.style.display = "block" : searchInput.style.display = "none"
+    
+//    if(searchInput.style.display === "none") {
+//         searchInput.style.display = "block"
+//         console.log("block")
+//    }else if(searchInput.style.display == "block") {
+//         console.log(searchInput.value)
+//         showResult()
+//         searchInput.style.display = "none"
+//     }
+// })
 
-   if (searchInput.style.display == "block") {
-        console.log(searchInput.value)
+searchIcon.addEventListener("click", eve => {
+    if(searchInput.style.display == "none") {
+        searchInput.style.display = "block"
+    }else {
         showResult()
+        searchInput.style.display = "none"
+        searchForm.reset()
     }
 
 })
-
-
 
 // Adding an event listener to a form
 searchForm.addEventListener("submit", eve => {
@@ -174,17 +185,18 @@ searchForm.addEventListener("submit", eve => {
 // Show search result in the app
 const showResult = () => {
     if (searchInput.style.display == "block") {
-        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${searchInput.value}&appid=&units=metric`)
+        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${searchInput.value}&appid=16212962d68b17d5bf5b07f46ed2a77f&units=metric`)
             .then(prms => prms.json())
             .then(searchData => {
                 console.log(searchData)
                 let todayClone = todayTemplate.content.cloneNode(true)
 
-                if (!searchInput.value) {
+                if(searchInput.value) {
                     // searchInput.style.display = "block"
+                    errorMsg.innerHTML = " "
+                } else{
                     errorMsg.innerHTML = "Please enter a city"
-                } else {
-                    errorMsg.innerHTML = ""
+                    
                 }
 
                 let weatherList = searchData.list
@@ -245,16 +257,16 @@ searchForm.addEventListener("click", eve => {
     eve.preventDefault()
 })
 
-
+let weather = localStorage.weather ? JSON.parse(localStorage.weather) : []
+console.log(weather)
 
 const sortTime = () => {
+    timeForecast.innerHTML = ""
     let weatherList = weatherData.list
-    renderTmr()
 
     weatherList.forEach((list, indx) => {
         let weatherDate = list.dt_txt.split(" ")
         let dateNum = weatherDate[0].split("-")[2]
-
         if (dateNum == "01") {
             let timeHour = weatherDate[1].split(":")[0]
             let timeMinute = weatherDate[1].split(":")[1]
@@ -263,6 +275,8 @@ const sortTime = () => {
             weather.push(
                 { data: list }
             )
+            localStorage.setItem("weather", JSON.stringify(weather))
+
             console.log(indx)
             console.log(list)
             timeForecast.innerHTML += ` <div id="navTime_${indx}" class="times-container flex gap-4">
@@ -287,8 +301,7 @@ const sortTime = () => {
             weather.push(
                 { data: list }
             )
-            console.log(indx)
-            console.log(list)
+            localStorage.setItem("weather", JSON.stringify(weather))
 
             timeForecast.innerHTML += ` <div onclick="navTime()" id="navTime_${indx}" class="times-container flex gap-4">
                                             <div class="time flex center-center column-dir">
@@ -306,17 +319,16 @@ const sortTime = () => {
         }
 
     })
-
+    renderTmr()
     // document.getElementById('middle-part').innerHTML = ""
     document.getElementById('middle-part').appendChild(wrapper)
     console.log(wrapper)
 }
 
-
 const renderTmr = () => {
     let todayClone = todayTemplate.content.cloneNode(true)
-    localStorage.setItem("weather", JSON.stringify(weather))
 
+    console.log(weather)
     weather.forEach((tmrWeather, indx) => {
         if (indx === 0) {
 
@@ -330,7 +342,7 @@ const renderTmr = () => {
             todayClone.getElementById("todayRateVis").innerHTML = (tmrWeather.data.visibility / 1000) + "km"
             todayClone.getElementById("todayRateWind").innerHTML = Math.floor(tmrWeather.data.wind.speed) + "m/s"
 
-            timeForecast.innerHTML = ""
+            // timeForecast.innerHTML = ""
         }
     })
     wrapper.innerHTML = ""
@@ -345,67 +357,67 @@ tmrNav.addEventListener("click", eve => {
 
 
 
-// // Next days navigation 
-// daysNav.addEventListener("click", eve => {
-//     // let clone = nextDaysTemplate.content.cloneNode(true)
+// Next days navigation 
+daysNav.addEventListener("click", eve => {
+    // let clone = nextDaysTemplate.content.cloneNode(true)
 
-//     document.querySelector(".right-part").innerHTML = ""
-//     document.querySelector(".right-part").innerHTML = `<div class="middle margin-top-0 days-middle">
-//     <div class="next-days">
-//         <div class="days-top flex vert-align gap-12">
-//             <div class="arrow">
-//                 <a href="#toToday"><span  id="arrow" class="material-symbols-outlined">keyboard_backspace</span></a>
-//             </div>
-//             <div class="next-day">
-//                 <p>5 Next Days</p>
-//             </div>
-//         </div>
-//         <div class="day-container flex space-around">
-//             <div class="day">
-//                 <p id="time" class="center-text">12:00</p>
-//                 <p id="time-icon" class="center-text">icon</p>
-//                 <p id="time-deg" class="center-text">25&deg</p>
-//             </div>
-//             <div class="day">
-//                 <p class="center-text">12:00</p>
-//                 <p class="center-text">icon</p>
-//                 <p class="center-text">25&deg</p>
-//             </div>
-//             <div class="day">
-//                 <p class="center-text">12:00</p>
-//                 <p class="center-text">icon</p>
-//                 <p class="center-text">25&deg</p>
-//             </div>
-//             <div class="day">
-//                 <p class="center-text">12:00</p>
-//                 <p class="center-text">icon</p>
-//                 <p class="center-text">25&deg</p>
-//             </div>
-//             <div class="day">
-//                 <p class="center-text">12:00</p>
-//                 <p class="center-text">icon</p>
-//                 <p class="center-text">25&deg</p>
-//             </div>
-//         </div>
-//         <div class="day-weather">
-//             <div class="days-temp flex space-around vert-align">
-//                 <div class="icon">
-//                     <p>ICON</p>
-//                 </div>
-//                 <div class="temp-container flex vert-align">
-//                     <p class="temp margin-0">28&deg</p>
-//                     <p class="align-item-to-end margin-top-10">C</p>
-//                 </div>
-//             </div>
-//         </div>
-//     </div>
-// </div>`
+    document.querySelector(".right-part").innerHTML = ""
+    document.querySelector(".right-part").innerHTML = `<div class="middle margin-top-0 days-middle">
+    <div class="next-days">
+        <div class="days-top flex vert-align gap-12">
+            <div class="arrow">
+                <a href="#toToday"><span  id="arrow" class="material-symbols-outlined">keyboard_backspace</span></a>
+            </div>
+            <div class="next-day">
+                <p>5 Next Days</p>
+            </div>
+        </div>
+        <div class="day-container flex space-around">
+            <div class="day">
+                <p id="time" class="center-text">12:00</p>
+                <p id="time-icon" class="center-text">icon</p>
+                <p id="time-deg" class="center-text">25&deg</p>
+            </div>
+            <div class="day">
+                <p class="center-text">12:00</p>
+                <p class="center-text">icon</p>
+                <p class="center-text">25&deg</p>
+            </div>
+            <div class="day">
+                <p class="center-text">12:00</p>
+                <p class="center-text">icon</p>
+                <p class="center-text">25&deg</p>
+            </div>
+            <div class="day">
+                <p class="center-text">12:00</p>
+                <p class="center-text">icon</p>
+                <p class="center-text">25&deg</p>
+            </div>
+            <div class="day">
+                <p class="center-text">12:00</p>
+                <p class="center-text">icon</p>
+                <p class="center-text">25&deg</p>
+            </div>
+        </div>
+        <div class="day-weather">
+            <div class="days-temp flex space-around vert-align">
+                <div class="icon">
+                    <p>ICON</p>
+                </div>
+                <div class="temp-container flex vert-align">
+                    <p class="temp margin-0">28&deg</p>
+                    <p class="align-item-to-end margin-top-10">C</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>`
 
-//     document.querySelector("#arrow").addEventListener("click", eve => {
-//         getToday()
-//     })
+    document.querySelector("#arrow").addEventListener("click", eve => {
+        getToday()
+    })
 
-// })
+})
 
 
 
