@@ -92,7 +92,7 @@ todayNav.addEventListener("click", eve => {
 const navTime = () => {
     console.log('Testing the onclick event')
 
-    document.getElementById("city").innerHTML = weatherData.city.name + ", " + weatherData.city.country
+    // document.getElementById("city").innerHTML = weatherData.city.name + ", " + weatherData.city.country
     // let data = JSON.parse(_data)
 
 }
@@ -286,10 +286,7 @@ const sortTime = () => {
                                         </div>`
 
             console.log(indx + " " + dateTime)
-            document.getElementById(`navTime_${indx}`).addEventListener("click", _eve => {
-                navTime()
-            })
-
+            timeNav(`navTime_${indx}`)
         }
 
     })
@@ -304,7 +301,7 @@ const renderTmr = () => {
 
     weather.forEach((tmrWeather, indx) => {
         if (indx === 0) {
-
+            console.log(tmrWeather)
             document.getElementById("city").innerHTML = weatherData.city.name + ", " + weatherData.city.country
 
             todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + tmrWeather.data.weather[0].icon + ".png"
@@ -320,6 +317,12 @@ const renderTmr = () => {
     })
     wrapper.innerHTML = ""
     wrapper.appendChild(todayClone)
+}
+
+const timeNav = (id) => {
+    document.getElementById(id).addEventListener("click", _eve => {
+        navTime()
+    })
 }
 
 // Tommorow's Day navigation

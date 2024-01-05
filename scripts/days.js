@@ -79,14 +79,14 @@ const getTwoDaysAheadWeather = () => {
             let dateTime = `${timeHour}:${timeMinute}`
 
             if (indx == 4) {
-                timeForecast.innerHTML = `<div class="day flex center-center column-dir" id="twoDaysAhead">
+                timeForecast.innerHTML = `<div class="day flex center-center column-dir" id="_twoDaysAhead">
                                         <img class="time-icon center-text" src="http://openweathermap.org/img/w/${data.weather[0].icon}.png">
                                         <p id="time-icon" class="center-text">${dateNum}</p>
                                         <p id="time-deg" class="center-text">${day}</p>
                                     </div>`
-                
+
                 wrapper.innerHTML = ""
-                
+
                 todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png"
                 todayClone.getElementById("todayDescription").innerHTML = data.weather[0].description
                 todayClone.getElementById("todayFeel").innerHTML += Math.floor(data.main.feels_like) + "\u00B0"
@@ -98,12 +98,16 @@ const getTwoDaysAheadWeather = () => {
                 wrapper.appendChild(todayClone)
                 document.getElementById('middle-part').innerHTML = ""
                 document.getElementById('middle-part').appendChild(wrapper)
+
+                
             }
 
 
         }
     })
+    
 }
+
 
 const getThreeDaysAheadWeather = () => {
     getDay(threeDaysAhead)
@@ -116,7 +120,7 @@ const getThreeDaysAheadWeather = () => {
             let dateTime = `${timeHour}:${timeMinute}`
 
             if (indx == 4) {
-                timeForecast.innerHTML += `<div class="day flex center-center column-dir" id="threeDaysAhead">
+                timeForecast.innerHTML += `<div class="day flex center-center column-dir" id="_threeDaysAhead">
                                         <img class="time-icon center-text" src="http://openweathermap.org/img/w/${data.weather[0].icon}.png">
                                         <p id="time-icon" class="center-text">${dateNum}</p>
                                         <p id="time-deg" class="center-text">${day}</p>
@@ -140,11 +144,29 @@ const getFourDaysAheadWeather = () => {
             let dateTime = `${timeHour}:${timeMinute}`
 
             if (indx == 4) {
-                timeForecast.innerHTML += `<div onclick="weather(${0})" class="day flex center-center column-dir" id="_fourDaysAhead">
+                timeForecast.innerHTML += `<div class="day flex center-center column-dir" id="_fourDaysAhead">
                                         <img class="time-icon center-text" src="http://openweathermap.org/img/w/${data.weather[0].icon}.png">
                                         <p id="time-icon" class="center-text">${dateNum}</p>
                                         <p id="time-deg" class="center-text">${day}</p>
                                     </div>`
+                document.getElementById("_fourDaysAhead").addEventListener("click", ev => {
+                    let todayClone = todayTemplate.content.cloneNode(true)
+
+                    console.log(indx)
+                    wrapper.innerHTML = ""
+
+                    todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png"
+                    todayClone.getElementById("todayDescription").innerHTML = data.weather[0].description
+                    todayClone.getElementById("todayFeel").innerHTML += Math.floor(data.main.feels_like) + "\u00B0"
+                    todayClone.getElementById("todayTemp").innerHTML = Math.floor(data.main.temp) + "\u00B0"
+                    todayClone.getElementById("todayRateHum").innerHTML = data.main.humidity + "%"
+                    todayClone.getElementById("todayRateVis").innerHTML = Math.floor(data.visibility / 1000) + "km"
+                    todayClone.getElementById("todayRateWind").innerHTML = Math.floor(data.wind.speed) + "m/s"
+
+                    wrapper.appendChild(todayClone)
+                    document.getElementById('middle-part').innerHTML = ""
+                    document.getElementById('middle-part').appendChild(wrapper)
+                })
             }
 
 
@@ -152,10 +174,53 @@ const getFourDaysAheadWeather = () => {
     })
 }
 
+
+
+
+
+
 daysNav.addEventListener("click", ev => {
     getTwoDaysAheadWeather()
     getThreeDaysAheadWeather()
     getFourDaysAheadWeather()
+
+    document.getElementById("_twoDaysAhead").addEventListener("click", ev => {
+        let todayClone = todayTemplate.content.cloneNode(true)
+    
+        console.log("_threeDaysAhead")
+        wrapper.innerHTML = ""
+    
+        todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + daysWeather["twoDaysAhead"][4].weather[0].icon + ".png"
+        todayClone.getElementById("todayDescription").innerHTML = daysWeather["twoDaysAhead"][4].weather[0].description
+        todayClone.getElementById("todayFeel").innerHTML += Math.floor(daysWeather["twoDaysAhead"][4].main.feels_like) + "\u00B0"
+        todayClone.getElementById("todayTemp").innerHTML = Math.floor(daysWeather["twoDaysAhead"][4].main.temp) + "\u00B0"
+        todayClone.getElementById("todayRateHum").innerHTML = daysWeather["twoDaysAhead"][4].main.humidity + "%"
+        todayClone.getElementById("todayRateVis").innerHTML = Math.floor(daysWeather["twoDaysAhead"][4].visibility / 1000) + "km"
+        todayClone.getElementById("todayRateWind").innerHTML = Math.floor(daysWeather["twoDaysAhead"][4].wind.speed) + "m/s"
+    
+        wrapper.appendChild(todayClone)
+        document.getElementById('middle-part').innerHTML = ""
+        document.getElementById('middle-part').appendChild(wrapper)
+    })
+
+    document.getElementById("_threeDaysAhead").addEventListener("click", ev => {
+        let todayClone = todayTemplate.content.cloneNode(true)
+    
+        console.log("_threeDaysAhead")
+        wrapper.innerHTML = ""
+    
+        todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + daysWeather["threeDaysAhead"][4].weather[0].icon + ".png"
+        todayClone.getElementById("todayDescription").innerHTML = daysWeather["threeDaysAhead"][4].weather[0].description
+        todayClone.getElementById("todayFeel").innerHTML += Math.floor(daysWeather["threeDaysAhead"][4].main.feels_like) + "\u00B0"
+        todayClone.getElementById("todayTemp").innerHTML = Math.floor(daysWeather["threeDaysAhead"][4].main.temp) + "\u00B0"
+        todayClone.getElementById("todayRateHum").innerHTML = daysWeather["threeDaysAhead"][4].main.humidity + "%"
+        todayClone.getElementById("todayRateVis").innerHTML = Math.floor(daysWeather["threeDaysAhead"][4].visibility / 1000) + "km"
+        todayClone.getElementById("todayRateWind").innerHTML = Math.floor(daysWeather["threeDaysAhead"][4].wind.speed) + "m/s"
+    
+        wrapper.appendChild(todayClone)
+        document.getElementById('middle-part').innerHTML = ""
+        document.getElementById('middle-part').appendChild(wrapper)
+    })
 
 })
 
