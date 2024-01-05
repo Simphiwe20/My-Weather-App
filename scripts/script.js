@@ -14,8 +14,10 @@ const backArrow = document.querySelector("#arrow")
 const rightPart = document.querySelector("#right-part")
 const timeForecast = document.querySelector(".time-forecast")
 const tmrwForecats = document.getElementById("time-forecast")
-const quoteAPI = "https://zenquotes.io/api/quotes"
 const errorMsg = document.getElementById("errorMsg")
+const quoteAPI = "https://zenquotes.io/api/quotes"
+const corsURL = "https://cors-anywhere.herokuapp.com/"
+
 
 let position = localStorage.position ? JSON.parse(localStorage.position) : {}
 
@@ -28,8 +30,8 @@ navigator.geolocation.watchPosition(pos => {
 })
 
 
-const weatherAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=${position.lat}&lon=${position.lon}&appid=&units=metric`
-const currentWeatherAPI = "https://api.openweathermap.org/data/2.5/weather?city=dannhauser&appid=&units=metric"
+const weatherAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=${position.lat}&lon=${position.lon}&appid=c0828550cd7ffd978efced6bb3616a63&units=metric`
+const currentWeatherAPI = "https://api.openweathermap.org/data/2.5/weather?city=dannhauser&appid=c0828550cd7ffd978efced6bb3616a63&units=metric"
 
 let wrapper = document.createElement("div")
 let tmrWrapper = document.createElement("section")
@@ -37,7 +39,6 @@ let tmrWrapper = document.createElement("section")
 let wordOfTheDay = localStorage.wordOfTheDay ? parse.JSON(localStorage.wordOfTheDay) : {}
 let day;
 let currentdate = new Date().getDate()
-console.log(currentdate)
 let month;
 
 // Fecthing data using await from Open weather
@@ -58,7 +59,7 @@ const showQuote = (_quote, _name) => {
 };
 
 // Fecting motivational words from the zen API
-fetch(quoteAPI)
+fetch(`${corsURL}${quoteAPI}`)
     .then(promise => promise.json())
     .then(quote => {
         console.log(quote)
@@ -85,12 +86,12 @@ todayNav.addEventListener("click", eve => {
     getToday()
 })
 
+
 // Navigate the time weather
 
 const navTime = () => {
-    // document.getElementById(`navTime_${_indx}`).addEventListener("click", eve => {
-    console.log('simphiwe')
-    // })
+    console.log('Testing the onclick event')
+
     document.getElementById("city").innerHTML = weatherData.city.name + ", " + weatherData.city.country
     // let data = JSON.parse(_data)
 
@@ -104,18 +105,15 @@ const getToday = () => {
     weatherList.forEach((list, indx) => {
         let weatherDate = list.dt_txt.split(" ")
         let dateNum = weatherDate[0].split("-")[2]
-        console.log(dateNum)
 
         if (dateNum == currentdate) {
             let timeHour = weatherDate[1].split(":")[0]
             let timeMinute = weatherDate[1].split(":")[1]
             let dateTime = `${timeHour}:${timeMinute}`
-            console.log(dateNum)
 
             if (indx == 0) {
 
                 document.getElementById("city").innerHTML = weatherData.city.name + ", " + weatherData.city.country
-                console.log(weatherData.city.name)
                 todayClone.getElementById("todayIcon").src = "http://openweathermap.org/img/w/" + weatherList[indx].weather[0].icon + ".png"
                 todayClone.getElementById("todayDescription").innerHTML = weatherList[indx].weather[0].description
                 todayClone.getElementById("todayFeel").innerHTML += Math.floor(weatherList[indx].main.feels_like) + "\u00B0"
@@ -148,20 +146,6 @@ const getToday = () => {
 
 getToday()
 
-// Showing the search input 
-// searchIcon.addEventListener("click", _eve => {
-//     // searchInput.style.display == "none" ? searchInput.style.display = "block" : searchInput.style.display = "none"
-    
-//    if(searchInput.style.display === "none") {
-//         searchInput.style.display = "block"
-//         console.log("block")
-//    }else if(searchInput.style.display == "block") {
-//         console.log(searchInput.value)
-//         showResult()
-//         searchInput.style.display = "none"
-//     }
-// })
-
 searchIcon.addEventListener("click", eve => {
     if(searchInput.style.display == "none") {
         searchInput.style.display = "block"
@@ -185,19 +169,11 @@ searchForm.addEventListener("submit", eve => {
 // Show search result in the app
 const showResult = () => {
     if (searchInput.style.display == "block") {
-        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${searchInput.value}&appid=16212962d68b17d5bf5b07f46ed2a77f&units=metric`)
+        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${searchInput.value}&appid=c0828550cd7ffd978efced6bb3616a63&units=metric`)
             .then(prms => prms.json())
             .then(searchData => {
                 console.log(searchData)
                 let todayClone = todayTemplate.content.cloneNode(true)
-
-                if(searchInput.value) {
-                    // searchInput.style.display = "block"
-                    errorMsg.innerHTML = " "
-                } else{
-                    errorMsg.innerHTML = "Please enter a city"
-                    
-                }
 
                 let weatherList = searchData.list
                 timeForecast.innerHTML = ""
@@ -246,7 +222,8 @@ const showResult = () => {
             })
 
             .catch(err => {
-                console.log(err);
+                console.log(err)
+                alert("You did not enter a City or you entered an invalid City name");
             })
     }
 }
@@ -258,7 +235,6 @@ searchForm.addEventListener("click", eve => {
 })
 
 let weather = localStorage.weather ? JSON.parse(localStorage.weather) : []
-console.log(weather)
 
 const sortTime = () => {
     timeForecast.innerHTML = ""
@@ -271,7 +247,6 @@ const sortTime = () => {
             let timeHour = weatherDate[1].split(":")[0]
             let timeMinute = weatherDate[1].split(":")[1]
             let dateTime = `${timeHour}:${timeMinute}`
-            console.log("Tommorow's date")
             weather.push(
                 { data: list }
             )
@@ -297,7 +272,6 @@ const sortTime = () => {
             let timeHour = weatherDate[1].split(":")[0]
             let timeMinute = weatherDate[1].split(":")[1]
             let dateTime = `${timeHour}:${timeMinute}`
-            console.log("Tommorow's date")
             weather.push(
                 { data: list }
             )
@@ -320,7 +294,7 @@ const sortTime = () => {
 
     })
     renderTmr()
-    // document.getElementById('middle-part').innerHTML = ""
+    document.getElementById('middle-part').innerHTML = ""
     document.getElementById('middle-part').appendChild(wrapper)
     console.log(wrapper)
 }
@@ -328,7 +302,6 @@ const sortTime = () => {
 const renderTmr = () => {
     let todayClone = todayTemplate.content.cloneNode(true)
 
-    console.log(weather)
     weather.forEach((tmrWeather, indx) => {
         if (indx === 0) {
 
@@ -356,78 +329,8 @@ tmrNav.addEventListener("click", eve => {
 })
 
 
-
-// Next days navigation 
-daysNav.addEventListener("click", eve => {
-    // let clone = nextDaysTemplate.content.cloneNode(true)
-
-    document.querySelector(".right-part").innerHTML = ""
-    document.querySelector(".right-part").innerHTML = `<div class="middle margin-top-0 days-middle">
-    <div class="next-days">
-        <div class="days-top flex vert-align gap-12">
-            <div class="arrow">
-                <a href="#toToday"><span  id="arrow" class="material-symbols-outlined">keyboard_backspace</span></a>
-            </div>
-            <div class="next-day">
-                <p>5 Next Days</p>
-            </div>
-        </div>
-        <div class="day-container flex space-around">
-            <div class="day">
-                <p id="time" class="center-text">12:00</p>
-                <p id="time-icon" class="center-text">icon</p>
-                <p id="time-deg" class="center-text">25&deg</p>
-            </div>
-            <div class="day">
-                <p class="center-text">12:00</p>
-                <p class="center-text">icon</p>
-                <p class="center-text">25&deg</p>
-            </div>
-            <div class="day">
-                <p class="center-text">12:00</p>
-                <p class="center-text">icon</p>
-                <p class="center-text">25&deg</p>
-            </div>
-            <div class="day">
-                <p class="center-text">12:00</p>
-                <p class="center-text">icon</p>
-                <p class="center-text">25&deg</p>
-            </div>
-            <div class="day">
-                <p class="center-text">12:00</p>
-                <p class="center-text">icon</p>
-                <p class="center-text">25&deg</p>
-            </div>
-        </div>
-        <div class="day-weather">
-            <div class="days-temp flex space-around vert-align">
-                <div class="icon">
-                    <p>ICON</p>
-                </div>
-                <div class="temp-container flex vert-align">
-                    <p class="temp margin-0">28&deg</p>
-                    <p class="align-item-to-end margin-top-10">C</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>`
-
-    document.querySelector("#arrow").addEventListener("click", eve => {
-        getToday()
-    })
-
-})
-
-
-
-
-
-
-
 const setDay = () => {
     let currentDay = new Date().getDay()
-    console.log(currentDay)
     switch (currentDay) {
         case 0:
             day = "Sunday";

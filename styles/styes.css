@@ -151,6 +151,10 @@ h2 {
     color: grey;
 }
 
+.next-d {
+    width: 130px !important;
+}
+
 .width-80 {
     width: 80;
 }
@@ -164,7 +168,7 @@ h2 {
 }
 
 .tmr {
-    width: 100px !important;
+    width: 120px !important;
 }
 
 .days-nav p:hover {
@@ -346,6 +350,12 @@ h2 {
     /* font-weight: 600; */
 }
 
+.day:hover {
+    cursor: pointer;
+    background-image: linear-gradient(to bottom, var(--white), var(--grey));
+
+}
+
 .day-weather {
     background-image: linear-gradient(to bottom, #fefefe, #e8e6f7);
     width: 100%;
@@ -425,7 +435,28 @@ h2 {
         margin: 0;
     }
     .width-50 {
-        width: 90%;
+        width: 70%;
         margin-top:30px;
     }
  }
+
+ @media screen and (max-width: 530px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .displayNone {
+        display: none;
+    }
+
+    .right-part {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+    }
+    .width-50 {
+        width: 100%;
+        margin-top:30px;
+    }
+ }
+

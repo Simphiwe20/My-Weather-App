@@ -43,14 +43,14 @@
                     <div class="days-nav flex space-between">
                         <p id="today-nav" class="center-text ">Today</p>
                         <p id="tmr-nav" class="center-text  tmr">Tommorow</p>
-                        <p id="days-nav" class="center-text">3 Days</p>
+                        <p id="days-nav" class="center-text next-d">Next 3 Days</p>
                     </div>
                 </div>
                 <div class="middle-part" id="middle-part">
 
                 </div>
                 <div class="time-container">
-                    <div class="time-forecast flex center-center gap-4">
+                    <div class="time-forecast flex center-center gap-4" id="timeForecast">
 
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="temps-container flex space-between">
                         <div id="extra-temp" class="extra-temp center-text">
-                            <p id="todayHumidity">Huminidity</p>
+                            <p id="todayHumidity">Humidity</p>
                             <span class="material-symbols-outlined">humidity_percentage</span>
                             <p id="todayRateHum">70%</p>
                         </div>
@@ -127,6 +127,8 @@
         </div>
 
         <script type="module" src="./scripts/script.js"></script>
+        <script type="module" src="./scripts/days.js"></script>
+
 </body>
 
 </html>
